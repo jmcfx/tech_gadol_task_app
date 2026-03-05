@@ -1,12 +1,20 @@
-# Tech Gadol App (Product Catalog Interview Task)
+# Tech Gadol Task App (Product Catalog Interview Task)
 A Flutter mini-app that showcases a list of products with search, category filtering, and detail screens.  
 Built using **Clean Architecture**, **BLoC** for state management, **Dio/Retrofit** for networking, and **Freezed** for immutable models and union states.  
 Includes a reusable, composable `ProductCard` widget, designed for flexibility and adaptability across different screen sizes.  
 The app is fully offline-capable, testable, and structured with maintainability in mind.
 
-Product List Page & Detail Page
 
-*(Screenshots/Video can be linked here)*
+## Product List Page & Detail Page
+
+## 📌 Snippet
+
+
+
+https://github.com/user-attachments/assets/a4da8b2e-00ef-428e-96d7-783689b0a327
+
+
+
 
 ## 📌 Demo Video
  
@@ -26,7 +34,7 @@ In the demo, I showcased:
 **Clone the Repository**
 
 ```bash
-git clone <your-repo-link>
+git clone git@github.com:jmcfx/tech_gadol_task_app.git
 cd tech_gadol_task_app
 ```
 
@@ -64,6 +72,19 @@ Automatically regenerates code on file changes during development:
 make watch
 ```
 > Runs `dart run build_runner watch -d`
+
+### 5. 📦 Build Android APK :
+```bash
+make apk
+```
+
+This command will:
+
+- Run `flutter pub get` to ensure dependencies are installed
+
+- Run `build_runner` to generate required code (`freezed`, `retrofit`, `json_serializable`)
+
+- Build the `Android APK` using `flutter build apk`
 
 ## Folder Structure :open_file_folder:
 
