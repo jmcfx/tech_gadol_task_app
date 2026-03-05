@@ -17,14 +17,20 @@ https://github.com/user-attachments/assets/a4da8b2e-00ef-428e-96d7-783689b0a327
 
 
 ## 📌 Demo Video
- 
-*(Add your Google Drive or YouTube link here)*
+
+The full video is too large to upload here.  
+Copy the link below into your browser to watch the full demo video:
+
+```bash
+https://drive.google.com/file/d/161QQmuloFwjQE5Ss-bcJlEzBK3MgJHJh/view?usp=sharing
+```
 
 In the demo, I showcased:
 - Offline mode test (pull-to-refresh when online)
 - Real-time product search with 500ms debouncing
 - Smooth navigation to detail screen with Hero animations
 - Master-detail responsive layout on tablet/desktop sizes
+- Pagination
 - Light and Dark mode toggling with instant design system updates
 
 ## 🚀 Getting Started
