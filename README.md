@@ -1,64 +1,132 @@
-# Tech Gadol — Product Catalog App
+# Tech Gadol App (Product Catalog Interview Task)
+A Flutter mini-app that showcases a list of products with search, category filtering, and detail screens.  
+Built using **Clean Architecture**, **BLoC** for state management, **Dio/Retrofit** for networking, and **Freezed** for immutable models and union states.  
+Includes a reusable, composable `ProductCard` widget, designed for flexibility and adaptability across different screen sizes.  
+The app is fully offline-capable, testable, and structured with maintainability in mind.
 
-A Flutter product catalog app with a custom design system, offline caching, and full light/dark theme support. Consumes the [DummyJSON Products API](https://dummyjson.com/products).
+Product List Page & Detail Page
 
-## Setup
+*(Screenshots/Video can be linked here)*
+
+## 📌 Demo Video
+ 
+*(Add your Google Drive or YouTube link here)*
+
+In the demo, I showcased:
+- Offline mode test (pull-to-refresh when online)
+- Real-time product search with 500ms debouncing
+- Smooth navigation to detail screen with Hero animations
+- Master-detail responsive layout on tablet/desktop sizes
+- Light and Dark mode toggling with instant design system updates
+
+## 🚀 Getting Started
+
+### 📦 Installation
+
+**Clone the Repository**
 
 ```bash
-flutter pub get
-dart run build_runner build --delete-conflicting-outputs
+git clone <your-repo-link>
+cd tech_gadol_task_app
+```
+
+### 🚀 Steps to Run
+
+#### 1. 🔧 Set Up Dependencies and Generate Code ‼️
+
+Run the following to clean the project, install dependencies, and generate `build_runner` outputs (`freezed`, `json_serializable`, `retrofit`):
+```bash
+make fresh
+``` 
+This will run the following commands:
+- `flutter clean` – Resets the build directory
+- `flutter pub get` – Fetches dependencies
+- `dart run build_runner build -d` – Generates `freezed` & `json_serializable`
+
+#### 2. 🚀 Run the app on a connected device or emulator ‼️
+
+```bash
 flutter run
 ```
 
-Or use the Makefile: `make fresh` (clean + pub get + build_runner + dart fix).
+#### 3. 🔄 Regenerate Code Only
 
-## Architecture
-
-**Clean Architecture** with three layers:
-
-- **Domain** — entities, repository contracts, use cases (pure Dart, no external deps)
-- **Data** — Retrofit API client, Freezed models, Hive local cache, repository implementation
-- **Presentation** — BLoC/Cubit state management, GoRouter navigation, design system widgets
-
-### State Management
-
-- `ProductListBloc` — paginated fetching, debounced search (500ms), category filtering
-- `ProductDetailCubit` — single product fetch with instant in-memory display
-- `ThemeCubit` — light/dark toggle
-
-### Offline Support
-
-**Online-first, cache-fallback** strategy using Hive:
-1. Fetch from API → cache locally → return `DataSource.network`
-2. API fails → serve Hive cache → return `DataSource.cache` + show amber banner
-3. No cache → propagate error to UI
-
-Cache uses a 15-minute TTL with composite keys for paginated queries.
-
-### Design System
-
-- 9 reusable widgets: `ProductCard`, `AppSearchBar`, `CategoryChip`, `RatingBar`, `PriceTag`, `ShimmerProductCard`, `ErrorStateWidget`, `EmptyStateWidget`, `CachedProductImage`
-- All semantic colors injected via `ThemeExtension<AppColorsExtension>` — widgets access colors exclusively through `Theme.of(context)`
-- Warm violet/rose/amber palette (light) and deep plum/lilac (dark)
-
-## Testing
-
-32 tests — all pass ✅
-
+If you just need to regenerate code (e.g., after editing models or annotations):
 ```bash
-flutter test     # 32/32 pass
-flutter analyze  # 0 issues
+make runner
+```
+> Runs `dart run build_runner build -d`
+
+#### 4. 👀 Watch for File Changes
+
+Automatically regenerates code on file changes during development:
+```bash
+make watch
+```
+> Runs `dart run build_runner watch -d`
+
+## Folder Structure :open_file_folder:
+
+```text
+lib/
+├── app/                  # Theme, routing (GoRouter), and app entry
+├── core/                 # Shared utilities, DI, errors, and Enums
+│   ├── di/
+│   ├── enums/
+│   ├── errors/
+│   ├── networks/
+│   └── use_case/
+├── features/
+│   └── products/
+│       ├── data/         # Retrofit clients, models, remote/local data sources, repo impl
+│       ├── domain/       # Entities, repo contracts, use cases
+│       └── presentation/ # BLoC/Cubit, screens, layouts
+└── shared/
+    └── widgets/          # Custom Design System components (ProductCard, RatingBar, etc.)
 ```
 
-## What I'd Improve With More Time
+## ✨ Features
 
-- **Richer UI polish** — staggered list animations on first load, shared element transitions beyond Hero, micro-interactions on card hover/press, and a parallax effect on the detail screen image gallery
-- **Component showcase screen** — a `/showcase` route displaying every design system component in all variants (default, selected, disabled, light, dark)
-- **Pull-to-refresh** — `RefreshIndicator` so users can manually retry after regaining connectivity
-- **Search within category** — client-side filtering since DummyJSON doesn't support combined search + category queries
-- **Deeper test coverage** — repository tests, Hive cache tests, integration tests with mock server, and golden snapshot tests for visual regression
-- **Accessibility** — `Semantics` labels, contrast audit, minimum 48×48 touch targets
+- 🧼 **Clean Architecture** — clear separation between Domain, Data, and Presentation.
+- 🔎 **Real-time Search & Filtering** — debounced search (500ms) and category filtering.
+- 📝 **Product Detail Page** — view full product gallery, stock info, and pricing.
+- 🧩 **Design System & Reusable Widgets** — 9 reusable widgets (like `ProductCard`, `PriceTag`) driven entirely by a custom `ThemeExtension`, ensuring no hardcoded colors in UI code.
+- 💾 **Local persistence / Offline support** — Hive-backed caching layer (15-min TTL) ensuring products remain visible even without an internet connection.
+- ⚡ **Explicit UI States** — clear idle, loading, success, and error states with a retry mechanism.
+- 🛠 **Resilient JSON Parsing** — `@Default` fallbacks on models and domain-level validation (clamping prices, bounding ratings) to prevent crashes from missing API fields.
+- 📱 **Responsive UI** — handles mobile views natively, and snaps into a master-detail split-view on tablet/desktop sizes (≥768px).
+- 🔗 **Deep Linking** — `GoRouter` setup allows direct URL navigation to specific products (`/products/:id`).
+- 🔄 **Testable Architecture** — 32 unit and widget tests covering BLoC transitions, JSON parsing resilience, and UI component rendering.
 
-## AI Tools Usage
+## 🎨 What I'd Improve With More Time
 
-AI (Claude) was used as a pair-programming assistant for architecture scaffolding, design system generation, and test creation. All output was reviewed and refined — including fixing type mismatches, dependency conflicts, and refactoring direct color references to use `ThemeExtension`.
+If I had more time, I would focus heavily on **UI polish and UX micro-interactions**:
+1. **Staggered entry animations**: List items fading and sliding up sequentially on first load instead of appearing instantly.
+2. **Shared element transitions**: A custom `PageRouteBuilder` to seamlessly morph the `ProductCard` into the `ProductDetailScreen` (animating the title and price along with the image Hero).
+3. **Micro-interactions**: Subtle scale/elevation bumps when hovering or pressing down on cards/buttons.
+4. **Parallax image gallery**: A subtle scroll parallax effect on the product detail image horizontally.
+5. **Component showcase route**: A dedicated `/showcase` developer route displaying all components (cards, chips, error states) in all variants (light/dark, selected/disabled).
+6. **Pull-to-refresh**: Wrap the `CustomScrollView` in a `RefreshIndicator` for intuitive manual retries, especially crucial for the offline recovery flow.
+
+## 📦 Dependencies
+
+- **flutter** – Core SDK
+- **dartz** – Functional programming tools (`Either`, `Option`) used for clean failure handling.
+- **equatable** – Value equality for BLoC states.
+- **dio** – Powerful HTTP client with custom logging interceptors.
+- **retrofit** – Type-safe REST client generator.
+- **go_router** – Declarative routing and deep linking.
+- **get_it** – Service locator for dependency injection.
+- **hive_flutter** – Fast, pure-Dart local key-value database for offline caching.
+- **connectivity_plus** – Network state detection.
+- **cached_network_image** – Image fetching and disk caching.
+- **shimmer** – Skeleton loaders.
+- **flutter_bloc** – State management and predictable UI states.
+
+### Dev Dependencies
+
+- **flutter_test** – Built-in testing framework.
+- **build_runner** – Runs code generators.
+- **freezed** – Generates immutable data classes, unions, and `@Default` constructors.
+- **json_serializable** – Generates JSON parsing logic.
+- **retrofit_generator** – Generates Retrofit networking code.
