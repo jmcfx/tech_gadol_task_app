@@ -10,9 +10,7 @@ The app is fully offline-capable, testable, and structured with maintainability 
 ## 📌 Snippet
 
 
-
-https://github.com/user-attachments/assets/a4da8b2e-00ef-428e-96d7-783689b0a327
-
+https://github.com/user-attachments/assets/0b19fcab-7857-4cab-9212-8858795feac3
 
 
 
