@@ -14,20 +14,13 @@ import 'package:tech_gadol_task_app/src/features/products/domain/use_cases/searc
 import 'package:tech_gadol_task_app/src/features/products/presentation/blocs/product_list_bloc.dart';
 import 'package:tech_gadol_task_app/src/features/products/presentation/blocs/product_detail_cubit.dart';
 
+import 'package:tech_gadol_task_app/src/core/networks/dio_clients.dart';
+
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
   // ── External ──
-  sl.registerLazySingleton<Dio>(() {
-    final dio = Dio(BaseOptions(
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
-    ));
-    dio.interceptors.add(
-      LogInterceptor(requestBody: false, responseBody: false, logPrint: (o) {}),
-    );
-    return dio;
-  });
+  sl.registerLazySingleton<Dio>(() => DioClient.createDio());
 
   // ── Local Data Source (Hive) ──
   final localDataSource = ProductsLocalDataSource();
